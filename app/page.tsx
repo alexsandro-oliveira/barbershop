@@ -35,6 +35,33 @@ const Home = async () => {
           </Button>
         </div>
 
+        {/* BUSCA RAPIDA */}
+        <div className="[&:: webkit-scrollbar]:hidden flex gap-3 overflow-x-scroll">
+          <Button className="mt-6 gap-2" variant="secondary">
+            <Image src="/cabelo.svg" width={16} height={16} alt="cabelo" />
+            Cabelo
+          </Button>
+
+          <Button className="mt-6 gap-2" variant="secondary">
+            <Image src="/barba.svg" width={16} height={16} alt="cabelo" />
+            Barba
+          </Button>
+
+          <Button className="mt-6 gap-2" variant="secondary">
+            <Image src="/acabamento.svg" width={16} height={16} alt="cabelo" />
+            Acabamento
+          </Button>
+
+          <Button className="mt-6 gap-2" variant="secondary">
+            <Image src="/hidratacao.svg" width={16} height={16} alt="cabelo" />
+            Hidratação
+          </Button>
+
+          <Button className="mt-6 gap-2" variant="secondary">
+            <Image src="/massagem.svg" width={16} height={16} alt="cabelo" />
+            Massagem
+          </Button>
+        </div>
         {/* BANNER */}
         <div className="relative mt-6 h-[150px] w-full">
           <Image
