@@ -26,9 +26,9 @@ const BarbershopItens = ({ barbershop }: BarbershopItemProps) => {
             className="absolute left-2 top-2 space-x-1"
             variant="secondary"
           >
+            {/* TODO: puxar avalidação do db */}
             <StarIcon size={12} className="fill-primary text-primary" />
             <p className="text-xs font-semibold">5,0</p>
-            {/* TODO: criar avaliação.  criar nova tabela no db */}
           </Badge>
         </div>
 
