@@ -12,6 +12,11 @@ import BarbershopItens from "./_components/barbershop-item"
 const Home = async () => {
   //chamar o banco de dados
   const barbershops = await db.barbershop.findMany({})
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
 
   return (
     <div>
@@ -72,6 +77,15 @@ const Home = async () => {
         </h2>
         <div className="[&:: webkit-scrollbar]:hidden flex gap-4 overflow-auto">
           {barbershops.map((barbershop) => (
+            <BarbershopItens key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
+
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          Populares
+        </h2>
+        <div className="[&:: webkit-scrollbar]:hidden flex gap-4 overflow-auto">
+          {popularBarbershops.map((barbershop) => (
             <BarbershopItens key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
