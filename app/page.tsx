@@ -1,5 +1,3 @@
-"use client"
-
 import { SearchIcon } from "lucide-react"
 import Header from "./_components/header"
 import { Input } from "./_components/ui/input"
@@ -8,8 +6,13 @@ import Image from "next/image"
 import { Card, CardContent } from "./_components/ui/card"
 import { Badge } from "./_components/ui/badge"
 import { Avatar, AvatarImage } from "./_components/ui/avatar"
+import { db } from "./_lib/prisma"
+import BarbershopItens from "./_components/barbershop-item"
 
-const Home = () => {
+const Home = async () => {
+  //chamar o banco de dados
+  const barbershops = await db.barbershop.findMany({})
+
   return (
     <div>
       {/* header */}
@@ -63,6 +66,15 @@ const Home = () => {
             </div>
           </CardContent>
         </Card>
+
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          Recomendados
+        </h2>
+        <div className="[&:: webkit-scrollbar]:hidden flex gap-4 overflow-auto">
+          {barbershops.map((barbershop) => (
+            <BarbershopItens key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
     </div>
   )
