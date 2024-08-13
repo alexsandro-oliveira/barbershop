@@ -24,7 +24,7 @@ const Home = async () => {
       <div className="p-5">
         {/* TEXTO */}
         <h2 className="text-xl font-bold">Olá, Alex!</h2>
-        <p>Sexta-feira, 9 de Agosto</p>
+        <p>Segunda-feira, 12 de Agosto</p>
 
         {/* BUSCA */}
         <div className="mt-6 flex items-center gap-2">
