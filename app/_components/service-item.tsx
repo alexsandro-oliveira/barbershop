@@ -22,7 +22,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         </div>
 
         {/* DIREITA */}
-        <div>
+        <div className="w-full">
           <h3 className="mb-1 text-sm font-semibold">{service.name}</h3>
           <p className="text-sm text-gray-400">{service.description}</p>
           {/* PREÇO E BOTÃO */}
