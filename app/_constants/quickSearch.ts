@@ -17,11 +17,15 @@ export const quickSearchOptions: QuickSearchOption[] = [
     label: "Acabamento",
   },
   {
-    icon: "/hidratacao.svg",
-    label: "Hidratação",
-  },
-  {
     icon: "/massagem.svg",
     label: "Massagem",
+  },
+  {
+    icon: "/sobrancelha.svg",
+    label: "Sobrancelha",
+  },
+  {
+    icon: "/hidratacao.svg",
+    label: "Hidratação",
   },
 ]
