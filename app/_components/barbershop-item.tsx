@@ -24,7 +24,7 @@ const BarbershopItens = ({ barbershop }: BarbershopItemProps) => {
           />
 
           <Badge
-            className="absolute left-2 top-2 space-x-1"
+            className="absolute left-2 top-2 space-x-1 opacity-85"
             variant="secondary"
           >
             {/* TODO: puxar avalidação do db */}

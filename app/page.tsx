@@ -59,7 +59,7 @@ const Home = async () => {
             src="/banner-01.png"
             alt="Agende nos melhores com Barber Shop"
             fill
-            className="object-cover"
+            className="rounded-xl object-cover"
           />
         </div>
 
