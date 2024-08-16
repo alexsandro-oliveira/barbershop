@@ -15,12 +15,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { Avatar, AvatarImage } from "./ui/avatar"
+import SignInDialog from "./signIn-dialog"
 
 const SidebarSheet = () => {
   const { data } = useSession()
-  const handleLoginWithGoogle = () => signIn("google")
+
   const handleLogountClick = () => signOut()
 
   return (
@@ -50,26 +51,8 @@ const SidebarSheet = () => {
                   <LogInIcon />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="w-[90%]">
-                <DialogHeader>
-                  <DialogTitle>Faça login na plataforma</DialogTitle>
-                  <DialogDescription>
-                    Conecte-se usando sua conta do Google.
-                  </DialogDescription>
-                </DialogHeader>
-                <Button
-                  variant="outline"
-                  className="text-base font-bold"
-                  onClick={handleLoginWithGoogle}
-                >
-                  <Image
-                    alt="login com google"
-                    src="/googleIcon.svg"
-                    width={18}
-                    height={18}
-                  />
-                  oogle
-                </Button>
+              <DialogContent className="w-[90%] rounded-2xl">
+                <SignInDialog />
               </DialogContent>
             </Dialog>
           </>
@@ -109,38 +92,40 @@ const SidebarSheet = () => {
         ))}
       </div>
 
-      <div className="flex flex-col gap-2 py-5">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="ghost" className="justify-start gap-3">
-              <LogOutIcon size={18} />
-              Sair da conta
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="w-[70%]">
-            <DialogHeader>
-              <DialogTitle>Sair</DialogTitle>
-              <DialogDescription>
-                Deseja mesmo sair da plataforma?
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex justify-between">
-              <DialogClose asChild>
-                <Button variant="outline" className="w-[134px]">
-                  Cancelar
-                </Button>
-              </DialogClose>
-              <Button
-                variant="destructive"
-                className="w-[134px]"
-                onClick={handleLogountClick}
-              >
-                Sair
+      {data?.user && (
+        <div className="flex flex-col gap-2 py-5">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="ghost" className="justify-start gap-3">
+                <LogOutIcon size={18} />
+                Sair da conta
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+            </DialogTrigger>
+            <DialogContent className="w-[70%] justify-center">
+              <DialogHeader>
+                <DialogTitle className="flex justify-center">Sair</DialogTitle>
+                <DialogDescription>
+                  Deseja mesmo sair da plataforma?
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex justify-between gap-3">
+                <DialogClose asChild>
+                  <Button variant="outline" className="w-full">
+                    Cancelar
+                  </Button>
+                </DialogClose>
+                <Button
+                  variant="destructive"
+                  onClick={handleLogountClick}
+                  className="w-full"
+                >
+                  Sair
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
     </SheetContent>
   )
 }
