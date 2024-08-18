@@ -168,13 +168,15 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 open={bookingSheetIsOpen}
                 onOpenChange={handleBookingSheetOpenChange}
               >
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleBookingClick}
-                >
-                  Reservar
-                </Button>
+                {data?.user && (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={handleBookingClick}
+                  >
+                    Reservar
+                  </Button>
+                )}
 
                 <SheetContent className="px-0">
                   <SheetHeader>
@@ -285,10 +287,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
         </CardContent>
       </Card>
 
-      <Dialog
-        open={signInDialogIsOpen}
-        onOpenChange={(open) => setBookingSheetIsOpen(open)}
-      >
+      <Dialog open={signInDialogIsOpen} onOpenChange={setBookingSheetIsOpen}>
         <DialogContent className="w-[90%] rounded-2xl">
           <SignInDialog />
         </DialogContent>

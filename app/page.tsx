@@ -7,15 +7,40 @@ import { quickSearchOptions } from "./_constants/quickSearch"
 import BookingItem from "./_components/booking-item"
 import Search from "./_components/search"
 import Link from "next/link"
+import { getServerSession } from "next-auth"
+import { authOptions } from "./_lib/auth"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 
 const Home = async () => {
+  const session = await getServerSession(authOptions)
   //chamar o banco de dados
-  const barbershops = await db.barbershop.findMany({})
-  const popularBarbershops = await db.barbershop.findMany({
-    orderBy: {
-      name: "desc",
-    },
-  })
+  const [barbershops, popularBarbershops, confirmedBookings] =
+    await Promise.all([
+      db.barbershop.findMany({}),
+      db.barbershop.findMany({
+        orderBy: {
+          name: "desc",
+        },
+      }),
+
+      session?.user
+        ? db.booking.findMany({
+            where: {
+              userId: (session.user as any).id,
+              date: {
+                gte: new Date(),
+              },
+            },
+            include: {
+              service: { include: { barbershop: true } },
+            },
+            orderBy: {
+              date: "asc",
+            },
+          })
+        : Promise.resolve([]),
+    ])
 
   return (
     <div>
@@ -23,8 +48,16 @@ const Home = async () => {
       <Header />
       <div className="p-5">
         {/* TEXTO */}
-        <h2 className="text-xl font-bold">Olá, Alex!</h2>
-        <p>Segunda-feira, 12 de Agosto</p>
+        <h2 className="text-xl font-bold">
+          {session?.user
+            ? `Olá, ${session.user.name?.split(" ")[0]}!`
+            : "Olá, vamos agendar um serviço hoje?"}
+        </h2>
+        <p className="mt-2 text-sm capitalize">
+          {format(new Date(), "EEEE',' d 'de' MMMM", {
+            locale: ptBR,
+          })}
+        </p>
 
         {/* BUSCA */}
         <div className="mt-6">
@@ -64,7 +97,15 @@ const Home = async () => {
         </div>
 
         {/* AGENDAMENTO */}
-        <BookingItem />
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          Agendamentos
+        </h2>
+
+        <div className="[&:: webkit-scrollbar]:hidden flex gap-3 overflow-x-auto">
+          {confirmedBookings.map((booking) => (
+            <BookingItem key={booking.id} booking={booking} />
+          ))}
+        </div>
 
         <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
           Recomendados
