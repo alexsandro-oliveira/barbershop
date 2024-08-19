@@ -30,7 +30,7 @@ import {
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
-import PhoneItem from "./phone-item"
+import PhoneItem from "./phoneItem"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
