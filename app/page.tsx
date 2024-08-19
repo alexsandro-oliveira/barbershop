@@ -53,10 +53,18 @@ const Home = async () => {
             ? `Olá, ${session.user.name?.split(" ")[0]}!`
             : "Olá, vamos agendar um serviço hoje?"}
         </h2>
-        <p className="mt-2 text-sm capitalize">
-          {format(new Date(), "EEEE',' d 'de' MMMM", {
-            locale: ptBR,
-          })}
+        <p className="mt-2 text-sm">
+          <span className="capitalize">
+            {format(new Date(), "EEEE, dd", {
+              locale: ptBR,
+            })}
+          </span>
+          <span>&nbsp;de&nbsp; </span>
+          <span className="capitalize">
+            {format(new Date(), "MMMM", {
+              locale: ptBR,
+            })}
+          </span>
         </p>
 
         {/* BUSCA */}
