@@ -1,4 +1,4 @@
-import PhoneItem from "@/app/_components/phone-item"
+import PhoneItem from "@/app/_components/phoneItem"
 import ServiceItem from "@/app/_components/service-item"
 import SidebarSheet from "@/app/_components/sidebar-sheet"
 import { Button } from "@/app/_components/ui/button"
