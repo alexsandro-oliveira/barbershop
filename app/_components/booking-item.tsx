@@ -31,7 +31,7 @@ import {
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
-import { Rating } from "./start-rating"
+import { Rating } from "./star-rating"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
