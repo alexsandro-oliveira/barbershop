@@ -97,7 +97,7 @@ const SidebarSheet = () => {
       </div>
 
       {data?.user && (
-        <div className="flex flex-col gap-2 py-5">
+        <div className="py-5">
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="ghost" className="justify-start gap-3">
@@ -105,14 +105,14 @@ const SidebarSheet = () => {
                 Sair da conta
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[70%] justify-center">
+            <DialogContent className="w-[70%]">
               <DialogHeader>
-                <DialogTitle className="flex justify-center">Sair</DialogTitle>
+                <DialogTitle>Sair</DialogTitle>
                 <DialogDescription>
                   Deseja mesmo sair da plataforma?
                 </DialogDescription>
               </DialogHeader>
-              <div className="flex justify-between gap-3">
+              <div className="flex gap-3">
                 <DialogClose asChild>
                   <Button variant="outline" className="w-full">
                     Cancelar

@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent } from "./ui/card"
 import { Badge } from "./ui/badge"
 import { Avatar, AvatarImage } from "./ui/avatar"
@@ -16,6 +18,20 @@ import {
 import Image from "next/image"
 import PhoneItem from "./Phone-item"
 import { Button } from "./ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog"
+import { deleteBooking } from "../_actions/delete-booking"
+import { toast } from "sonner"
+import { useState } from "react"
+import { Rating } from "./start-rating"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -26,18 +42,32 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
   const {
     service: { barbershop },
   } = booking
   const isConfirmed = isFuture(booking.date)
+  const handleCancelBooking = async () => {
+    try {
+      await deleteBooking(booking.id)
+      setIsSheetOpen(false)
+      toast.success("Reserva cancelada com sucesso!")
+    } catch (error) {
+      console.error(error)
+      toast.error("Erro ao cancelar a reserva. Tente novamente.")
+    }
+  }
+  const handleSheetOpenChange = (isOpen: boolean) => {
+    setIsSheetOpen(isOpen)
+  }
 
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger className="w-full">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
-            <div className="flex flex-col gap-2 py-5 pl-5">
+            <div className="flex flex-col items-start gap-2 py-5 pl-5">
               <Badge
                 className="w-fit"
                 variant={isConfirmed ? "default" : "secondary"}
@@ -68,7 +98,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </CardContent>
         </Card>
       </SheetTrigger>
-      <SheetContent className="w-[90%]">
+      <SheetContent className="w-[85%]">
         <SheetHeader className="border-b border-solid">
           <SheetTitle className="mb-6 text-left">
             Informações da reserva
@@ -144,16 +174,85 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           ))}
         </div>
 
-        <SheetFooter>
-          <div className="mt-8 flex justify-center gap-3">
-            <SheetClose className="w-full">
+        <SheetFooter className="mt-6">
+          <div className="flex items-center gap-3">
+            <SheetClose asChild>
               <Button variant="secondary" className="w-full">
                 Voltar
               </Button>
             </SheetClose>
-            <Button variant="destructive" className="w-full">
-              Cancelar Reserva
-            </Button>
+            {isConfirmed ? (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="destructive" className="w-full">
+                    Cancelar Reserva
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[80%]">
+                  <DialogHeader>
+                    <DialogTitle>Cancelar Reserva</DialogTitle>
+                    <DialogDescription>
+                      Tem certeza que deseja cancelar esse agendamento?
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="flex flex-row gap-3">
+                    <DialogClose asChild>
+                      <Button variant="secondary" className="w-full">
+                        Voltar
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button
+                        variant="destructive"
+                        className="w-full"
+                        onClick={handleCancelBooking}
+                      >
+                        Confirmar
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="default" className="w-full">
+                    Avaliar
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[80%]">
+                  <DialogHeader>
+                    <DialogTitle>Avalie sua experiência</DialogTitle>
+                    <DialogDescription>
+                      {`Toque nas estrelas para avaliar sua experiência na ${barbershop.name}`}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex justify-center p-3">
+                    <Rating
+                      rating={3}
+                      totalStars={5}
+                      size={24}
+                      variant="default"
+                      className="h-1"
+                      showText={false}
+                      disabled={false}
+                    />
+                  </div>
+                  <DialogFooter className="mt-6 flex flex-row gap-3">
+                    <DialogClose asChild>
+                      <Button variant="secondary" className="w-full">
+                        Cancelar
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button variant="default" className="w-full">
+                        Confirmar
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </SheetFooter>
       </SheetContent>
