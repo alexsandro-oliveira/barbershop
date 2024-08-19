@@ -16,7 +16,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 import Image from "next/image"
-import PhoneItem from "./Phone-item"
+import PhoneItem from "./phone-item"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -31,7 +31,6 @@ import {
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
-import { Rating } from "./star-rating"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -228,7 +227,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex justify-center p-3">
-                    <Rating
+                    {/* <Rating
                       rating={3}
                       totalStars={5}
                       size={24}
@@ -236,7 +235,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                       className="h-1"
                       showText={false}
                       disabled={false}
-                    />
+                    /> */}
                   </div>
                   <DialogFooter className="mt-6 flex flex-row gap-3">
                     <DialogClose asChild>
