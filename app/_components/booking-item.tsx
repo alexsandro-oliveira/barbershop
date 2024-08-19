@@ -16,7 +16,6 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 import Image from "next/image"
-import PhoneItem from "./phone-item"
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -31,6 +30,7 @@ import {
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
+import PhoneItem from "./phone-item"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
