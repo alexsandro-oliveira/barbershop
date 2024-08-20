@@ -11,36 +11,18 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "./_lib/auth"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { getConfirmedBookings } from "./get-confirmed-bookings"
 
 const Home = async () => {
   const session = await getServerSession(authOptions)
-  //chamar o banco de dados
-  const [barbershops, popularBarbershops, confirmedBookings] =
-    await Promise.all([
-      db.barbershop.findMany({}),
-      db.barbershop.findMany({
-        orderBy: {
-          name: "desc",
-        },
-      }),
 
-      session?.user
-        ? db.booking.findMany({
-            where: {
-              userId: (session.user as any).id,
-              date: {
-                gte: new Date(),
-              },
-            },
-            include: {
-              service: { include: { barbershop: true } },
-            },
-            orderBy: {
-              date: "asc",
-            },
-          })
-        : Promise.resolve([]),
-    ])
+  const barbershops = await db.barbershop.findMany({})
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
+  const confirmedBookings = await getConfirmedBookings()
 
   return (
     <div>
