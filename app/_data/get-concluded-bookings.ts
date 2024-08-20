@@ -1,10 +1,10 @@
 "use server"
 
 import { getServerSession } from "next-auth"
-import { authOptions } from "./_lib/auth"
-import { db } from "./_lib/prisma"
+import { authOptions } from "../_lib/auth"
+import { db } from "../_lib/prisma"
 
-export const getConfirmedBookings = async () => {
+export const getConcludedBookings = async () => {
   const session = await getServerSession(authOptions)
   if (!session?.user) return []
 
@@ -12,11 +12,15 @@ export const getConfirmedBookings = async () => {
     where: {
       userId: (session.user as any).id,
       date: {
-        gte: new Date(),
+        lt: new Date(),
       },
     },
     include: {
-      service: { include: { barbershop: true } },
+      service: {
+        include: {
+          barbershop: true,
+        },
+      },
     },
     orderBy: {
       date: "asc",

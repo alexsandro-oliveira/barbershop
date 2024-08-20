@@ -3,8 +3,8 @@ import Header from "../_components/header"
 import { authOptions } from "../_lib/auth"
 import { notFound } from "next/navigation"
 import BookingItem from "../_components/booking-item"
-import { getConfirmedBookings } from "../get-confirmed-bookings"
-import { getConcludedBookings } from "../get-concluded-bookings"
+import { getConfirmedBookings } from "../_data/get-confirmed-bookings"
+import { getConcludedBookings } from "../_data/get-concluded-bookings"
 
 const Bookings = async () => {
   const session = await getServerSession(authOptions)
