@@ -32,6 +32,7 @@ import { toast } from "sonner"
 import { useState } from "react"
 import PhoneItem from "./phoneItem"
 import BookingSummary from "./booking-summary"
+import RatingStarDialog from "./rating-dialog"
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -43,6 +44,7 @@ interface BookingItemProps {
 
 const BookingItem = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+
   const {
     service: { barbershop },
   } = booking
@@ -194,35 +196,11 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="w-[80%]">
-                  <DialogHeader>
-                    <DialogTitle>Avalie sua experiência</DialogTitle>
-                    <DialogDescription>
-                      {`Toque nas estrelas para avaliar sua experiência na ${barbershop.name}`}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="flex justify-center p-3">
-                    {/* <Rating
-                      rating={3}
-                      totalStars={5}
-                      size={24}
-                      variant="default"
-                      className="h-1"
-                      showText={false}
-                      disabled={false}
-                    /> */}
-                  </div>
-                  <DialogFooter className="mt-6 flex flex-row gap-3">
-                    <DialogClose asChild>
-                      <Button variant="secondary" className="w-full">
-                        Cancelar
-                      </Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                      <Button variant="default" className="w-full">
-                        Confirmar
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
+                  <RatingStarDialog
+                    barbershop={barbershop}
+                    setIsSheetOpen={setIsSheetOpen}
+                    key={barbershop.id}
+                  />
                 </DialogContent>
               </Dialog>
             )}

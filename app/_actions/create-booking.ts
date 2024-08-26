@@ -15,6 +15,7 @@ export const createBooking = async (params: CreateBookingParams) => {
   if (!user) {
     throw new Error("Usuário não autenticado")
   }
+
   await db.booking.create({
     data: { ...params, userId: (user.user as any).id },
   })

@@ -3,7 +3,8 @@ import ServiceItem from "@/app/_components/service-item"
 import SidebarSheet from "@/app/_components/sidebar-sheet"
 import { Button } from "@/app/_components/ui/button"
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
-import { db } from "@/app/_lib/prisma"
+import { getBarbershopsById } from "@/app/_data/get-barbershops-by-id"
+import { getRatingBarbershop } from "@/app/_data/get-rating-barbershop"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -17,14 +18,8 @@ interface BarbershopPageProps {
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
   //chamar o banco de dados
-  const barbershop = await db.barbershop.findUnique({
-    where: {
-      id: params.id,
-    },
-    include: {
-      services: true,
-    },
-  })
+  const barbershop = await getBarbershopsById(params)
+  const rating = await getRatingBarbershop(params)
 
   if (!barbershop) {
     return notFound()
@@ -77,7 +72,9 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
         <div className="flex items-center gap-2">
           <StarIcon className="fill-primary text-primary" size={18} />
-          <p className="text-sm">5,0 (499 avaliações)</p>
+          <p className="text-sm">
+            {rating.rating} ({rating.totalRatings} avaliações)
+          </p>
         </div>
       </div>
 

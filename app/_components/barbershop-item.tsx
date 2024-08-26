@@ -5,12 +5,15 @@ import { Button } from "./ui/button"
 import { Badge } from "./ui/badge"
 import { StarIcon } from "lucide-react"
 import Link from "next/link"
+import { getRatingBarbershop } from "../_data/get-rating-barbershop"
 
 interface BarbershopItemProps {
   barbershop: Barbershop
 }
 
-const BarbershopItens = ({ barbershop }: BarbershopItemProps) => {
+const BarbershopItens = async ({ barbershop }: BarbershopItemProps) => {
+  const rating = await getRatingBarbershop(barbershop)
+
   return (
     <Card className="min-w-[167px] rounded-2xl">
       <CardContent className="p-1 py-1">
@@ -29,7 +32,7 @@ const BarbershopItens = ({ barbershop }: BarbershopItemProps) => {
           >
             {/* TODO: puxar avalidação do db */}
             <StarIcon size={12} className="fill-primary text-primary" />
-            <p className="text-xs font-semibold">5,0</p>
+            <p className="text-xs font-semibold">{rating.rating}</p>
           </Badge>
         </div>
 
